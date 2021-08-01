@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:todolist/theme.dart';
 import 'package:todolist/tasks.dart';
+import 'package:todolist/listinfo.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(ListInfoAdapter());
+  await Hive.openBox<ListInfo>('tasklist');
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application. 
+  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   // var _taskIndex = 0;
-
 
   // void answerQuestion() {
   //   setState(() {
@@ -51,9 +58,7 @@ class _MyAppState extends State<MyApp> {
 
 class Home extends StatelessWidget {
   @override
-  
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         title: Text('To Do List', style: Theme.of(context).textTheme.headline1),
@@ -76,7 +81,6 @@ class Home extends StatelessWidget {
               'Seems like a good time to get started!',
               style: Theme.of(context).textTheme.headline2,
             ),
-            
           ],
         ),
       ),
